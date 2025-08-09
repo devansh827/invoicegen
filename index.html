@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Professional Invoice Generator</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <header class="header">
+          <div class="header-content">
+            <div class="logo-section">
+              <div class="logo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14,2 14,8 20,8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+              </div>
+              <div>
+                <h1 class="title">Invoice Generator</h1>
+                <p class="subtitle">Create professional invoices instantly</p>
+              </div>
+            </div>
+            <button id="generatePdf" class="btn-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7,10 12,15 17,10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download PDF
+            </button>
+          </div>
+        </header>
+
+        <div class="main-content">
+          <div class="form-section">
+            <div class="form-grid">
+              <!-- Company Information -->
+              <div class="card">
+                <h3 class="card-title">Your Company</h3>
+                <div class="form-group">
+                  <label for="companyName">Company Name</label>
+                  <input type="text" id="companyName" placeholder="Acme Corporation" />
+                </div>
+                <div class="form-group">
+                  <label for="companyAddress">Address</label>
+                  <textarea id="companyAddress" placeholder="123 Business Street&#10;Suite 100&#10;New York, NY 10001" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="companyEmail">Email</label>
+                    <input type="email" id="companyEmail" placeholder="hello@acme.com" />
+                  </div>
+                  <div class="form-group">
+                    <label for="companyPhone">Phone</label>
+                    <input type="tel" id="companyPhone" placeholder="+1 (555) 123-4567" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Client Information -->
+              <div class="card">
+                <h3 class="card-title">Bill To</h3>
+                <div class="form-group">
+                  <label for="clientName">Client Name</label>
+                  <input type="text" id="clientName" placeholder="Client Company Inc." />
+                </div>
+                <div class="form-group">
+                  <label for="clientAddress">Address</label>
+                  <textarea id="clientAddress" placeholder="456 Client Avenue&#10;Floor 5&#10;Los Angeles, CA 90210" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="clientEmail">Email</label>
+                    <input type="email" id="clientEmail" placeholder="contact@client.com" />
+                  </div>
+                  <div class="form-group">
+                    <label for="clientPhone">Phone</label>
+                    <input type="tel" id="clientPhone" placeholder="+1 (555) 987-6543" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Invoice Details -->
+            <div class="card">
+              <h3 class="card-title">Invoice Details</h3>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="invoiceNumber">Invoice Number</label>
+                  <input type="text" id="invoiceNumber" placeholder="INV-2024-001" />
+                </div>
+                <div class="form-group">
+                  <label for="invoiceDate">Invoice Date</label>
+                  <input type="date" id="invoiceDate" />
+                </div>
+                <div class="form-group">
+                  <label for="dueDate">Due Date</label>
+                  <input type="date" id="dueDate" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Items Section -->
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Invoice Items</h3>
+                <button id="addItem" class="btn-secondary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                  Add Item
+                </button>
+              </div>
+              <div id="itemsContainer">
+                <div class="item-row">
+                  <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" class="item-description" placeholder="Web Development Services" />
+                  </div>
+                  <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" class="item-quantity" value="1" min="1" />
+                  </div>
+                  <div class="form-group">
+                    <label>Rate ($)</label>
+                    <input type="number" class="item-rate" value="100" min="0" step="0.01" />
+                  </div>
+                  <div class="form-group">
+                    <label>Amount ($)</label>
+                    <input type="number" class="item-amount" readonly />
+                  </div>
+                  <button class="btn-remove" onclick="removeItem(this)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="totals-section">
+                <div class="totals-row">
+                  <span>Subtotal:</span>
+                  <span id="subtotal">$0.00</span>
+                </div>
+                <div class="totals-row">
+                  <span>Tax (%):</span>
+                  <input type="number" id="taxRate" value="10" min="0" max="100" step="0.1" />
+                </div>
+                <div class="totals-row">
+                  <span>Tax Amount:</span>
+                  <span id="taxAmount">$0.00</span>
+                </div>
+                <div class="totals-row total">
+                  <span>Total:</span>
+                  <span id="total">$0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="card">
+              <h3 class="card-title">Additional Notes</h3>
+              <div class="form-group">
+                <textarea id="notes" placeholder="Payment terms: Net 30 days&#10;Thank you for your business!" rows="4"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Preview Section -->
+          <div class="preview-section">
+            <div class="preview-header">
+              <h3>Invoice Preview</h3>
+              <div class="preview-actions">
+                <button id="refreshPreview" class="btn-secondary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23,4 23,10 17,10"></polyline>
+                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                  </svg>
+                  Refresh
+                </button>
+              </div>
+            </div>
+            <div id="invoicePreview" class="invoice-preview">
+              <!-- Invoice preview will be generated here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
